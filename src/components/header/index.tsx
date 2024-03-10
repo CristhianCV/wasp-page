@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Header = () => {
     return (
-        <nav className="fixed top-0 left-0 right-0 flex flex-wrap justify-between z-10 text-dark-green bg-light-green/[0.6] backdrop-blur-xl sm:flex-nowrap">
+        <nav className="fixed top-0 left-0 right-0 flex flex-wrap justify-between z-30 text-dark-green bg-light-green/[0.6] backdrop-blur-xl sm:flex-nowrap">
             <div className="flex flex-1 items-center h-20 mx-10">
                 <a
                     href="#"
