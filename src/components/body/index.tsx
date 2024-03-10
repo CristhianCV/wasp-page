@@ -175,7 +175,7 @@ const Body = () => {
                     </span>
                 </div>
             </div>
-            <div className="section-02 relative w-full flex mb-24 text-yellow bg-[url('leaves-background.jpg')] z-0">
+            <div className="section-02 relative w-full flex mb-24 text-yellow bg-[url('/leaves-background.jpg')] z-0">
                 <div className="w-1/2 flex flex-col gap-8 px-2 z-[2]">
                     <span className="section-number text-9xl leading-none text-yellow font-semibold lg:text-[17rem]">
                         02
