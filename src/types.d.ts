@@ -1,4 +1,4 @@
 export interface BeeModelParams {
-    position: number[]
-    rotation: number[]
+    position: THREE.Vector3
+    rotation: Euler
 }

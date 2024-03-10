@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useMemo, useRef, useState } from "react";
+import { Euler, Vector3 } from "three";
 import leaf from "../../assets/leaf.png";
 import pinkFlower from "../../assets/pink-flower.png";
 import redFlower from "../../assets/red-flower.png";
@@ -14,8 +15,8 @@ const Body = () => {
     const containerRef = useRef(null);
     const modelRef = useRef(null);
 
-    const [position, setPosition] = useState([0, 0, 0]);
-    const [rotation, setRotation] = useState([0, -1.5, 0]);
+    const [position] = useState(new Vector3(0, 0, 0));
+    const [rotation, setRotation] = useState(new Euler(0, -1.5, 0));
 
     const points = useMemo(() => {
         const points = [];
@@ -46,7 +47,7 @@ const Body = () => {
 
     const updateRotation = (index: number, progress: number) => {
         const diffRotation = points[index].rotationStart + progress * points[index].rotationDiff;
-        setRotation([0, diffRotation, 0]);
+        setRotation(new Euler(0, diffRotation, 0));
     };
 
     useGSAP(
@@ -69,72 +70,77 @@ const Body = () => {
                 }
             }
 
-            gsap.to(modelRef.current, {
-                scrollTrigger: {
-                    start: "50% 50%",
-                    end: "90% bottom",
-                    trigger: ".introduction",
-                    endTrigger: ".section-01",
-                    scrub: true,
-                    markers: true,
-                    onUpdate: (self) => {
-                        updateRotation(1, self.progress);
-                        // updatePosition(1, self.progress);
-                    },
+            gsap.fromTo(
+                modelRef.current,
+                {
+                    xPercent: 0,
+                    yPercent: -5,
                 },
-                startAt: { xPercent: 0, yPercent: -5 },
-                xPercent: -17,
-                yPercent: 0,
-                ease: "power1.inOut",
-                // y: function (index, target, targets) {
-                //     console.log("index", index);
-                //     console.log("target", target);
-                //     console.log("targets", targets);
-                //     return "+=0";
-                // }
-                // ease: "none",
-            });
-
-            gsap.to(modelRef.current, {
-                scrollTrigger: {
-                    start: "10% bottom",
-                    end: "90% bottom",
-                    trigger: ".section-02",
-                    scrub: true,
-                    // markers: true,
-                    onUpdate: (self) => {
-                        updateRotation(2, self.progress);
+                {
+                    scrollTrigger: {
+                        start: "50% 50%",
+                        end: "90% bottom",
+                        trigger: ".introduction",
+                        endTrigger: ".section-01",
+                        scrub: true,
+                        onUpdate: (self) => {
+                            updateRotation(1, self.progress);
+                        },
                     },
-                },
-                startAt: { xPercent: -17 },
-                xPercent: 25,
-                ease: "power1.inOut",
-            });
+                    xPercent: -17,
+                    yPercent: 0,
+                    ease: "power1.inOut",
+                }
+            );
 
-            gsap.to(modelRef.current, {
-                scrollTrigger: {
-                    start: "10% bottom",
-                    end: "100% bottom",
-                    trigger: ".section-03",
-                    scrub: true,
-                    // markers: true,
-                    onUpdate: (self) => {
-                        updateRotation(3, self.progress);
+            gsap.fromTo(
+                modelRef.current,
+                {
+                    xPercent: -17,
+                },
+                {
+                    scrollTrigger: {
+                        start: "10% bottom",
+                        end: "90% bottom",
+                        trigger: ".section-02",
+                        scrub: true,
+                        onUpdate: (self) => {
+                            updateRotation(2, self.progress);
+                        },
                     },
-                },
-                startAt: { xPercent: 25 },
-                xPercent: -20,
-                ease: "power1.inOut",
-            });
+                    xPercent: 25,
+                    ease: "power1.inOut",
+                }
+            );
 
-            gsap.set(modelRef.current, { xPercent: 0, yPercent: -5, startAt: { xPercent: 0, yPercent: -5 } });
+            gsap.fromTo(
+                modelRef.current,
+                {
+                    xPercent: 25,
+                },
+                {
+                    scrollTrigger: {
+                        start: "10% bottom",
+                        end: "100% bottom",
+                        trigger: ".section-03",
+                        scrub: true,
+                        onUpdate: (self) => {
+                            updateRotation(3, self.progress);
+                        },
+                    },
+                    xPercent: -20,
+                    ease: "power1.inOut",
+                }
+            );
+
+            gsap.set(modelRef.current, { xPercent: 0 });
         },
         { scope: containerRef }
     );
 
     return (
         <div className="relative w-full pt-20 text-dark-green z-[2]" ref={containerRef}>
-            <ModelContainer position={position} rotation={rotation} ref={modelRef} ></ModelContainer>
+            <ModelContainer position={position} rotation={rotation} ref={modelRef}></ModelContainer>
             <h1 className="relative w-full font-bold text-center text-yellow text-[7rem] z-20 leading-none select-none sm:text-[10rem] md:text-[13rem] lg:text-[17rem]">
                 Wasp
             </h1>
